@@ -126,6 +126,131 @@
     }
     .nav-cta:hover { background: rgba(212,168,75,.12); }
 
+    /* ── Nav popup cards ── */
+    .nav-item {
+      position: relative;
+    }
+    .nav-popup {
+      position: absolute;
+      top: calc(100% + 1.2rem);
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      width: 224px;
+      background: rgba(10, 20, 32, 0.75);
+      border: 1px solid rgba(196,168,130,.18);
+      border-radius: 14px;
+      padding: 1.4rem 1.5rem;
+      backdrop-filter: blur(28px) saturate(1.5);
+      -webkit-backdrop-filter: blur(28px) saturate(1.5);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .38s cubic-bezier(.16,1,.3,1),
+                  transform .38s cubic-bezier(.16,1,.3,1);
+      z-index: 100;
+      box-shadow: 0 28px 64px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.04) inset;
+    }
+    .nav-popup::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      width: 9px; height: 9px;
+      background: rgba(10,20,32,.9);
+      border-left: 1px solid rgba(196,168,130,.18);
+      border-top: 1px solid rgba(196,168,130,.18);
+    }
+    .nav-item.open .nav-popup {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    .nav-item.open > a { opacity: 1; }
+
+    /* ── Dim backdrop ── */
+    .nav-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(5, 12, 20, 0.6);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .38s ease;
+    }
+    .nav-backdrop.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ── Email highlight pulse ── */
+    @keyframes field-pulse {
+      0%   { box-shadow: 0 0 0 0px rgba(212,168,75,0);   border-color: rgba(212,168,75,.5); }
+      45%  { box-shadow: 0 0 0 7px rgba(212,168,75,.22); border-color: rgba(212,168,75,1);  }
+      100% { box-shadow: 0 0 0 14px rgba(212,168,75,0);  border-color: rgba(212,168,75,.6); }
+    }
+    .notify-form input.highlight {
+      border-color: rgba(212,168,75,.9) !important;
+      animation: field-pulse .75s ease forwards;
+    }
+    .nav-popup-icon {
+      font-size: 1.45rem;
+      margin-bottom: .85rem;
+      display: block;
+      line-height: 1;
+    }
+    .nav-popup-label {
+      font-size: .57rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .nav-popup-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(212,168,75,.22);
+    }
+    .nav-popup-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: .55rem;
+    }
+    .nav-popup-body {
+      font-size: .71rem;
+      font-weight: 300;
+      color: rgba(240,232,216,.42);
+      line-height: 1.7;
+    }
+    .nav-popup-divider {
+      height: 1px;
+      background: rgba(255,255,255,.06);
+      margin: .9rem 0;
+    }
+    .nav-popup-status {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(98,182,203,.65);
+    }
+    .nav-popup-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--horizon);
+      animation: pulse-dot 2s infinite;
+      flex-shrink: 0;
+    }
+
     /* ── Hero ── */
     .hero {
       display: flex;
@@ -431,13 +556,34 @@
 
 <canvas id="bg-canvas"></canvas>
 
+<div class="nav-backdrop" id="nav-backdrop"></div>
 <div class="stage">
   <!-- Header -->
   <header>
     <div class="logo">Wander<span>lust</span></div>
     <nav>
-      <a href="#" class="hide-mobile">About</a>
-      <a href="#" class="hide-mobile">Destinations</a>
+      <div class="nav-item hide-mobile">
+        <a href="#">About</a>
+        <div class="nav-popup">
+          <span class="nav-popup-icon">✦</span>
+          <div class="nav-popup-label">Our Story</div>
+          <div class="nav-popup-title">A new kind of travel awaits</div>
+          <div class="nav-popup-body">We're a team of wanderers building something the world hasn't seen yet. Every detail, crafted with care.</div>
+          <div class="nav-popup-divider"></div>
+          <div class="nav-popup-status"><span class="nav-popup-dot"></span>Page launching soon</div>
+        </div>
+      </div>
+      <div class="nav-item hide-mobile">
+        <a href="#">Destinations</a>
+        <div class="nav-popup">
+          <span class="nav-popup-icon">🌍</span>
+          <div class="nav-popup-label">Explore</div>
+          <div class="nav-popup-title">195 countries. Infinite stories.</div>
+          <div class="nav-popup-body">Curated routes, hidden escapes, and local secrets — all in one place. The map is filling up.</div>
+          <div class="nav-popup-divider"></div>
+          <div class="nav-popup-status"><span class="nav-popup-dot"></span>Coming with launch</div>
+        </div>
+      </div>
       <a href="#" class="nav-cta">Notify Me</a>
     </nav>
   </header>
@@ -700,7 +846,60 @@
   }
   tick(); setInterval(tick, 1000);
 
-  /* ── Notify ── */
+  /* ── Nav popup (click-based) ── */
+  const backdrop = document.getElementById('nav-backdrop');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  function closeAllPopups() {
+    navItems.forEach(i => i.classList.remove('open'));
+    backdrop.classList.remove('visible');
+  }
+
+  navItems.forEach(item => {
+    const link = item.querySelector('a');
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const isOpen = item.classList.contains('open');
+      closeAllPopups();
+      if (!isOpen) {
+        item.classList.add('open');
+        backdrop.classList.add('visible');
+      }
+    });
+  });
+
+  // Close when clicking backdrop or pressing Escape
+  backdrop.addEventListener('click', closeAllPopups);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPopups(); });
+
+  /* ── Notify Me nav button — highlight email field ── */
+  document.querySelector('.nav-cta').addEventListener('click', e => {
+    e.preventDefault();
+    closeAllPopups();
+    const input = document.getElementById('email-input');
+    const isMobile = window.innerWidth <= 768;
+
+    if (isMobile) {
+      // On mobile: scroll into view smoothly, then pulse
+      input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        input.classList.remove('highlight');
+        void input.offsetWidth; // reflow to restart animation
+        input.classList.add('highlight');
+        input.focus();
+        setTimeout(() => input.classList.remove('highlight'), 900);
+      }, 600);
+    } else {
+      // Desktop: just pulse and focus
+      input.classList.remove('highlight');
+      void input.offsetWidth;
+      input.classList.add('highlight');
+      input.focus();
+      setTimeout(() => input.classList.remove('highlight'), 900);
+    }
+  });
+
+  /* ── Notify form submit ── */
   function handleNotify() {
     const val = document.getElementById('email-input').value.trim();
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
